@@ -67,50 +67,50 @@ Based on my roadmap, here're the complete list of projects for this journey:
 
 ### 🤖 3. AI Projects (Python & ML.NET)
 
-- [] Matrix Calculator
-- [] Gradient Visualizer
-- [] Vector Similarity Tool
-- [] Statistics Analyzer
-- [] Probability Simulator
-- [] Dataset Insights Tool
-- [] File Organizer
-- [] CLI Notes Manager
-- [] Regex-based Data Cleaner
-- [] Mini ORM
-- [] Async Downloader
-- [] Plugin-based CLI App
-- [] CSV Analytics Engine
-- [] Academic Dataset Analyzer
-- [] Visualization Dashboard
-- [] Spam Classifier
-- [] Student Performance Predictor
-- [] Email Prioritization Model
-- [] Image Classifier
-- [] Sentiment Analyzer
-- [] OCR Prototype
-- [] Semantic Search Engine
-- [] FAQ Chatbot
-- [] AI Email Assistant
-- [] ML Model API
-- [] AI Microservice
-- [] Local LLM Runner
-- [] Spam Detection in ASP.NET
-- [] Recommendation Engine
-- [] Real-time Prediction API
-- [] AI Research Assistant
-- [] RAG-based Academic Assistant
-- [] AI Workflow Automation System
-- [] Scalable RAG Backend
-- [] Multi-model AI Router
-- [] AI Monitoring Dashboard
+- [ ] Matrix Calculator
+- [ ] Gradient Visualizer
+- [ ] Vector Similarity Tool
+- [ ] Statistics Analyzer
+- [ ] Probability Simulator
+- [ ] Dataset Insights Tool
+- [ ] File Organizer
+- [ ] CLI Notes Manager
+- [ ] Regex-based Data Cleaner
+- [ ] Mini ORM
+- [ ] Async Downloader
+- [ ] Plugin-based CLI App
+- [ ] CSV Analytics Engine
+- [ ] Academic Dataset Analyzer
+- [ ] Visualization Dashboard
+- [ ] Spam Classifier
+- [ ] Student Performance Predictor
+- [ ] Email Prioritization Model
+- [ ] Image Classifier
+- [ ] Sentiment Analyzer
+- [ ] OCR Prototype
+- [ ] Semantic Search Engine
+- [ ] FAQ Chatbot
+- [ ] AI Email Assistant
+- [ ] ML Model API
+- [ ] AI Microservice
+- [ ] Local LLM Runner
+- [ ] Spam Detection in ASP.NET
+- [ ] Recommendation Engine
+- [ ] Real-time Prediction API
+- [ ] AI Research Assistant
+- [ ] RAG-based Academic Assistant
+- [ ] AI Workflow Automation System
+- [ ] Scalable RAG Backend
+- [ ] Multi-model AI Router
+- [ ] AI Monitoring Dashboard
 
 ### 😎 4. Master-Level Projects (.NET + React + Python / ML.NET)
 
-- [] AI SaaS Platform
-- [] AI IDE Assistant
-- [] Enterprise Automation System
-- [] Multi-agent AI platform
-- [] AI-powered ERP/CRM
-- [] AI-based communication infrastructure
+- [ ] AI SaaS Platform
+- [ ] AI IDE Assistant
+- [ ] Enterprise Automation System
+- [ ] Multi-agent AI platform
+- [ ] AI-powered ERP/CRM
+- [ ] AI-based communication infrastructure
 
 ---
