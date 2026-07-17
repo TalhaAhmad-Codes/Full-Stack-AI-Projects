@@ -7,7 +7,7 @@ public static class ValidationHelper
         return RegexHelper.IsValidEmail(email);
     }
 
-    public static bool IsValidGPA(float gpa)
+    public static bool IsValidGPA(double gpa)
     {
         var newGPA = (int) gpa * 100;
         return newGPA is >= 100 and <= 400;

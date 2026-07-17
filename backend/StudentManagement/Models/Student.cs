@@ -6,7 +6,7 @@ public sealed record Student(
     int Age,
     string Email,
     string Department,
-    float GPA,
+    double GPA,
     bool IsActive,
     DateTime CreatedAt
 );
