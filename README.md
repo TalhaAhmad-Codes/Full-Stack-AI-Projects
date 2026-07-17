@@ -22,7 +22,7 @@ Based on my roadmap, here're the complete list of projects for this journey:
 
 ### 🏗 1. Backend Projects (.NET)
 
-- [ ] Student Management Console App
+- 🟩 Student Management Console App
 - [ ] File Analyzer Tool
 - [ ] Async Log Processing System
 - [ ] Notification System using Strategy Pattern
