@@ -1,52 +1,50 @@
 ﻿using StudentManagement.Services;
-using StudentManagement.Utilities.Helpers;
 using StudentManagement.Utilities.Menu;
 
-StudentService service = new();
-
-try
+void Start()
 {
-    service.AddStudent("Talha Ahmad", 20, "talha.code92@gmail.com", "Computer Science", 3.03);
-    service.AddStudent("Aslam Akbar", 21, "aslam@gmail.com", "Commerce", 2.98);
+    var menu = new StudentMenu();
+    var operation = new StudentOperations();
+    MenuSelection option = default;
 
-    var students = service.GetAllStudents();
-
-    foreach (var student in students)
+    do
     {
-        student.Display();
-    }
+        option = menu.Start();
+
+        switch (option)
+        {
+            case MenuSelection.AddStudent:
+                operation.AddStudent();
+                break;
+
+            case MenuSelection.RemoveStudent:
+                operation.RemoveStudent();
+                break;
+
+            case MenuSelection.UpdateStudent:
+                operation.UpdateStudent();
+                break;
+
+            case MenuSelection.ViewAllStudents:
+                operation.GetAllStudents();
+                break;
+
+            case MenuSelection.ViewFilteredStudents:
+                operation.GetFilteredStudents();
+                break;
+
+            case MenuSelection.GetTopStudents:
+                operation.GetTopStudents();
+                break;
+
+            case MenuSelection.GetAverageGPA:
+                operation.GetAverageGPA();
+                break;
+
+            default:
+                continue;
+        }
+    } while (option != MenuSelection.Exit);
 }
-catch (Exception ex)
-{
-    Console.WriteLine($"Error: {ex.Message}");
-}
 
-Console.WriteLine();
-Console.WriteLine("Press Enter to launch the sample menu...");
-Console.ReadLine();
-
-var menu = new StudentMenu();
-menu.Show();
-
-/*
-
-[OUTPUT]
-
------------------------------------------------------------
-Id:         1
-Name:       Talha Ahmad
-Department: Computer Science
-GPA:        3.03
-Email:      talha.code92@gmail.com
-Active:     True
-Created At: 7/17/2026 4:09:23 PM
------------------------------------------------------------
-Id:         2
-Name:       Aslam Akbar
-Department: Commerce
-GPA:        2.98
-Email:      aslam@gmail.com
-Active:     True
-Created At: 7/17/2026 4:09:23 PM
-
-*/
+Start();

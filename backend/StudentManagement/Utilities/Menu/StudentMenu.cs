@@ -1,27 +1,48 @@
-using StudentManagement.Utilities.Menu;
-
 namespace StudentManagement.Utilities.Menu;
 
-public sealed class StudentMenu : BaseMenu
+public enum MenuSelection
+{
+    AddStudent = 1,
+    RemoveStudent,
+    UpdateStudent,
+    ViewAllStudents,
+    ViewFilteredStudents,
+    GetTopStudents,
+    GetAverageGPA,
+    Exit,
+}
+
+public sealed class StudentMenu : BaseMenu<MenuSelection>
 {
     public StudentMenu()
-        : base("Student Management", new[] { "Add Student", "View Students", "Exit" })
-    {
-    }
+        : base(
+            title: "Student Management",
+            options:
+            [
+                "Add Student",
+                "Remove Student",
+                "Update Student",
+                "View All Students",
+                "View Filtered Students",
+                "Get Top Students",
+                "Get Average GPA",
+                "Exit",
+            ]
+        ) { }
 
-    protected override void HandleSelection(int selectedOption)
+    protected override MenuSelection HandleSelection(int selectedOption)
     {
-        switch (selectedOption)
+        return selectedOption switch
         {
-            case 1:
-                Console.WriteLine("Add Student selected.");
-                break;
-            case 2:
-                Console.WriteLine("View Students selected.");
-                break;
-            case 3:
-                Console.WriteLine("Exiting menu.");
-                break;
-        }
+            1 => MenuSelection.AddStudent,
+            2 => MenuSelection.RemoveStudent,
+            3 => MenuSelection.UpdateStudent,
+            4 => MenuSelection.ViewAllStudents,
+            5 => MenuSelection.ViewFilteredStudents,
+            6 => MenuSelection.GetTopStudents,
+            7 => MenuSelection.GetAverageGPA,
+            8 => MenuSelection.Exit,
+            _ => throw new Exception("Invalid Option"),
+        };
     }
 }

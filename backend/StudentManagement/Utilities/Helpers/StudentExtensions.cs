@@ -15,4 +15,19 @@ public static class StudentExtensions
         Console.WriteLine($"Active:     {student.IsActive}");
         Console.WriteLine($"Created At: {student.CreatedAt}");
     }
+
+    public static void DisplayAll(this List<Student> students)
+    {
+        if (students.Count > 0)
+        {
+            foreach (var student in students)
+            {
+                student.Display();
+            }
+        }
+        else
+        {
+            Message.Info("No students founde");
+        }
+    }
 }

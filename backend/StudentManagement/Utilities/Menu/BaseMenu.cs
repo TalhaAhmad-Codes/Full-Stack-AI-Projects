@@ -1,8 +1,10 @@
 namespace StudentManagement.Utilities.Menu;
 
-public abstract class BaseMenu
+public abstract class BaseMenu<Enum>
 {
     private readonly IReadOnlyList<string> _options;
+    protected string Title { get; }
+    protected IReadOnlyList<string> Options => _options;
 
     protected BaseMenu(string title, IEnumerable<string> options)
     {
@@ -19,13 +21,11 @@ public abstract class BaseMenu
         Title = title;
     }
 
-    protected string Title { get; }
+    protected bool IsValidOption(int option) => option > 0 && option < _options.Count;
 
-    protected IReadOnlyList<string> Options => _options;
-
-    public void Show()
+    public Enum Start()
     {
-        RunMenu();
+        return RunMenu();
     }
 
     protected virtual void DisplayMenu()
@@ -50,9 +50,7 @@ public abstract class BaseMenu
             Console.Write("Enter your choice: ");
             var input = Console.ReadLine();
 
-            if (int.TryParse(input, out var selectedOption) &&
-                selectedOption >= 1 &&
-                selectedOption <= _options.Count)
+            if (int.TryParse(input, out var selectedOption) && IsValidOption(selectedOption))
             {
                 return selectedOption;
             }
@@ -62,11 +60,26 @@ public abstract class BaseMenu
         }
     }
 
-    protected virtual void RunMenu()
+    protected virtual Enum RunMenu()
     {
-        var selectedOption = SelectOption();
-        HandleSelection(selectedOption);
+        Enum option;
+
+        do
+        {
+            try
+            {
+                var selectedOption = SelectOption();
+                option = HandleSelection(selectedOption);
+                break;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+        } while (true);
+
+        return option;
     }
 
-    protected abstract void HandleSelection(int selectedOption);
+    protected abstract Enum HandleSelection(int selectedOption);
 }

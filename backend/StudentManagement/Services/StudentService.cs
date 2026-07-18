@@ -12,7 +12,7 @@ public sealed class StudentService : IStudentService
 
     private void AgainstInvalidEmail(string email)
     {
-        var isValidEmail = ValidationHelper.IsValidEmail(email.Trim());
+        var isValidEmail = ValidationHelper.IsValidEmail(email);
         if (!isValidEmail)
             throw new Exception("Given email is invalid.");
     }
@@ -26,11 +26,11 @@ public sealed class StudentService : IStudentService
 
     private void AgainstAlreadyRegisteredEmail(string email)
     {
-        var existsByEmail = _query.Any(s => s.Email == email.Trim());
+        var existsByEmail = _query.Any(s => s.Email == email);
         if (existsByEmail)
             throw new Exception("Student of given email is already registered.");
     }
-    
+
     public void AddStudent(string name, int age, string email, string department, double gpa)
     {
         // Validation Checks
@@ -39,30 +39,52 @@ public sealed class StudentService : IStudentService
         AgainstAlreadyRegisteredEmail(email);
 
         // Adding student record
-        Student student = new(++count, name.Trim(), age, email.Trim(), department.Trim(), gpa, true, DateTime.Now);
+        Student student = new(++count, name, age, email, department, gpa, true, DateTime.Now);
         _students.Add(student);
     }
 
-    public void UpdateStudent(int id, string name, int age, string email, string department, double gpa, bool isActive)
+    public void UpdateStudent(
+        int id,
+        string? name,
+        int? age,
+        string? email,
+        string? department,
+        double? gpa,
+        bool? isActive
+    )
     {
-        var student = _query.FirstOrDefault(s => s.Id == id) ??
-                      throw new Exception("Student of given id not found.");
-        
+        var student =
+            _query.FirstOrDefault(s => s.Id == id)
+            ?? throw new Exception("Student of given id not found.");
+
         // Validation Checks
-        AgainstInvalidEmail(email);
-        AgainstInvalidGPA(gpa);
-        AgainstAlreadyRegisteredEmail(email);
+        AgainstInvalidEmail(email!);
+        AgainstInvalidGPA(gpa!.Value);
+
+        if (student.Email != email)
+            AgainstAlreadyRegisteredEmail(email!);
 
         // Updating the student
-        Student newStudent = new(id, name.Trim(), age, email.Trim(), department.Trim(), gpa, isActive, student.CreatedAt);
+        Student newStudent = new(
+            id,
+            name ?? student.Name,
+            age ?? student.Age,
+            email ?? student.Email,
+            department ?? student.Department,
+            gpa ?? student.GPA,
+            isActive ?? student.IsActive,
+            student.CreatedAt
+        );
+        
         _students.Remove(student);
         _students.Add(newStudent);
     }
 
     public void DeleteStudent(int id)
     {
-        var student = _query.FirstOrDefault(s => s.Id == id) ??
-                      throw new Exception("Student of given id not found.");
+        var student =
+            _query.FirstOrDefault(s => s.Id == id)
+            ?? throw new Exception("Student of given id not found.");
 
         _students.Remove(student);
     }
@@ -72,16 +94,19 @@ public sealed class StudentService : IStudentService
         return _students;
     }
 
-    public List<Student> SearchStudents(string name)
-    {
-        return _query
-            .Where(s => s.Name.ToLower() == name.Trim().ToLower())
-            .ToList();
-    }
-
-    public List<Student> FilterStudents(int? minAge, int? maxAge, double? minGPA, double? maxGPA, string? department)
+    public List<Student> FilterStudents(
+        string? name,
+        int? minAge,
+        int? maxAge,
+        double? minGPA,
+        double? maxGPA,
+        string? department
+    )
     {
         var query = _query;
+
+        if (name is not null)
+            query = query.Where(s => s.Name.ToLower() == name.ToLower());
 
         if (minAge.HasValue)
             query = query.Where(s => s.Age >= minAge);
@@ -90,31 +115,27 @@ public sealed class StudentService : IStudentService
             query = query.Where(s => s.Age <= maxAge);
 
         if (minGPA.HasValue)
-            query = query.Where(s => (int) s.GPA * 100 >= (int) minGPA * 100);
-        
+            query = query.Where(s => (int)s.GPA * 100 >= (int)minGPA * 100);
+
         if (maxGPA.HasValue)
-            query = query.Where(s => (int) s.GPA * 100 <= (int) maxGPA * 100);
+            query = query.Where(s => (int)s.GPA * 100 <= (int)maxGPA * 100);
 
         if (department is not null)
-            query = query.Where(s => s.Department.ToLower() == department.Trim().ToLower());
+            query = query.Where(s => s.Department.ToLower() == department.ToLower());
 
-        return query.ToList();
+        return [.. query];
     }
 
     public List<Student> GetTopStudents(int count = 1)
     {
         if (count < 1)
             throw new Exception("You can only select at least 1 student");
-        
-        return _query
-            .OrderByDescending(s => s.GPA)
-            .Take(count)
-            .ToList();
+
+        return [.. _query.OrderByDescending(s => s.GPA).Take(count)];
     }
 
     public double CalculateAverageGPA()
     {
-        return _students.Count > 0 ? _query
-            .Average(s => s.GPA) : 0.0;
+        return _students.Count > 0 ? _query.Average(s => s.GPA) : 0.0;
     }
 }
