@@ -22,7 +22,7 @@ Based on my roadmap, here're the complete list of projects for this journey:
 
 ### 🏗 1. Backend Projects (.NET)
 
-- 🟩 Student Management Console App
+🟩 Student Management Console App
 - [ ] File Analyzer Tool
 - [ ] Async Log Processing System
 - [ ] Notification System using Strategy Pattern
@@ -104,13 +104,13 @@ Based on my roadmap, here're the complete list of projects for this journey:
 - [ ] Multi-model AI Router
 - [ ] AI Monitoring Dashboard
 
-### 😎 4. Master-Level Projects (.NET + React + Python / ML.NET)
+### 😎 4. Capstone Projects (.NET + React + Python / ML.NET)
 
 - [ ] AI SaaS Platform
 - [ ] AI IDE Assistant
-- [ ] Enterprise Automation System
+- [ ] Enterprise Automation System (any domain)
 - [ ] Multi-agent AI platform
 - [ ] AI-powered ERP/CRM
-- [ ] AI-based communication infrastructure
+- [ ] AI-powered Chat Application
 
 ---
