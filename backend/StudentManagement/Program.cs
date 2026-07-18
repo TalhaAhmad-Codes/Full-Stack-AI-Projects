@@ -1,5 +1,6 @@
 ﻿using StudentManagement.Services;
 using StudentManagement.Utilities.Helpers;
+using StudentManagement.Utilities.Menu;
 
 StudentService service = new();
 
@@ -19,6 +20,13 @@ catch (Exception ex)
 {
     Console.WriteLine($"Error: {ex.Message}");
 }
+
+Console.WriteLine();
+Console.WriteLine("Press Enter to launch the sample menu...");
+Console.ReadLine();
+
+var menu = new StudentMenu();
+menu.Show();
 
 /*
 
