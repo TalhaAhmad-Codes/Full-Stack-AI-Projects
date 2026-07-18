@@ -58,11 +58,15 @@ public sealed class StudentService : IStudentService
             ?? throw new Exception("Student of given id not found.");
 
         // Validation Checks
-        AgainstInvalidEmail(email!);
-        AgainstInvalidGPA(gpa!.Value);
+        if (email is not null)
+        {
+            AgainstInvalidEmail(email);
+            if (student.Email != email)
+                AgainstAlreadyRegisteredEmail(email);
+        }
 
-        if (student.Email != email)
-            AgainstAlreadyRegisteredEmail(email!);
+        if (gpa.HasValue)
+            AgainstInvalidGPA(gpa.Value);
 
         // Updating the student
         Student newStudent = new(
@@ -75,7 +79,7 @@ public sealed class StudentService : IStudentService
             isActive ?? student.IsActive,
             student.CreatedAt
         );
-        
+
         _students.Remove(student);
         _students.Add(newStudent);
     }
@@ -100,13 +104,17 @@ public sealed class StudentService : IStudentService
         int? maxAge,
         double? minGPA,
         double? maxGPA,
-        string? department
+        string? department,
+        bool? isActive
     )
     {
         var query = _query;
 
         if (name is not null)
             query = query.Where(s => s.Name.ToLower() == name.ToLower());
+
+        if (isActive.HasValue)
+            query = query.Where(s => s.IsActive == isActive);
 
         if (minAge.HasValue)
             query = query.Where(s => s.Age >= minAge);

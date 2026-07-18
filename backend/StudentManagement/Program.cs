@@ -5,7 +5,7 @@ void Start()
 {
     var menu = new StudentMenu();
     var operation = new StudentOperations();
-    MenuSelection option = default;
+    MenuSelection option;
 
     do
     {

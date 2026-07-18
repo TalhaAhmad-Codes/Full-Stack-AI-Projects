@@ -10,6 +10,7 @@ public static class StudentExtensions
         Console.WriteLine($"Id:         {student.Id}");
         Console.WriteLine($"Name:       {student.Name}");
         Console.WriteLine($"Department: {student.Department}");
+        Console.WriteLine($"Age:        {student.Age}");
         Console.WriteLine($"GPA:        {student.GPA}");
         Console.WriteLine($"Email:      {student.Email}");
         Console.WriteLine($"Active:     {student.IsActive}");

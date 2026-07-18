@@ -24,15 +24,34 @@ namespace StudentManagement.Services
             return Console.ReadLine()!.Trim();
         }
 
-        private string? TakeNullableInput(string prompt)
+        private string? TakeNullableInputString(string prompt)
         {
             Console.Write($"{prompt} (leave blank to skip): ");
-            var input = Console.ReadLine()!.Trim();
-            return input.Count() == 0 ? null : input;
+            var input = Console.ReadLine();
+            return string.IsNullOrWhiteSpace(input) ? null : input.Trim();
+        }
+
+        private int? TakeNullableInputInt(string prompt)
+        {
+            var input = TakeNullableInputString(prompt);
+            return int.TryParse(input, out int parsedInput) ? parsedInput : null;
+        }
+
+        private double? TakeNullableInputDouble(string prompt)
+        {
+            var input = TakeNullableInputString(prompt);
+            return double.TryParse(input, out double parsedInput) ? parsedInput : null;
+        }
+
+        private bool? TakeNullableInputBoolean(string prompt)
+        {
+            var input = TakeNullableInputString(prompt);
+            return bool.TryParse(input, out bool parsedInput) ? parsedInput : null;
         }
 
         public void AddStudent()
         {
+            Console.Clear();
             Message.Title("Add Student");
 
             try
@@ -49,48 +68,45 @@ namespace StudentManagement.Services
             catch (Exception ex)
             {
                 Message.Error(ex.Message);
+            }
+            finally
+            {
                 Misc.Hold();
             }
         }
 
         public void GetAllStudents()
         {
+            Console.Clear();
             Message.Title("All Students");
+
             var students = _service.GetAllStudents();
             students.DisplayAll();
             Misc.Hold();
-            // if (students.Count > 0)
-            // {
-            //     foreach (var student in students)
-            //     {
-            //         student.Display();
-            //     }
-            // }
-            // else
-            // {
-            //     Message.Info("No students found");
-            //     Misc.Hold();
-            // }
         }
 
         public void GetAverageGPA()
         {
+            Console.Clear();
             Message.Title("Average GPA of All Students");
 
             var gpa = _service.CalculateAverageGPA();
             Message.Info($"The average GPA is {gpa}");
+            Misc.Hold();
         }
 
         public void GetFilteredStudents()
         {
+            Console.Clear();
             Message.Title("Filter all Students");
 
-            var name = TakeNullableInput("Enter name");
-            var minAge = Convert.ToInt32(TakeNullableInput("Enter minimum age"));
-            var maxAge = Convert.ToInt32(TakeNullableInput("Enter maximum age"));
-            var minGPA = Convert.ToDouble(TakeNullableInput("Enter minimum GPA"));
-            var maxGPA = Convert.ToDouble(TakeNullableInput("Enter maximum GPA"));
-            var department = TakeNullableInput("Enter department");
+            var name = TakeNullableInputString("Enter name");
+            var minAge = TakeNullableInputInt("Enter minimum age");
+            var maxAge = TakeNullableInputInt("Enter maximum age");
+            var minGPA = TakeNullableInputDouble("Enter minimum GPA");
+            var maxGPA = TakeNullableInputDouble("Enter maximum GPA");
+            var department = TakeNullableInputString("Enter department");
+            var isActive = TakeNullableInputBoolean("Enter activation status (0-False, 1-True)");
 
             var students = _service.FilterStudents(
                 name,
@@ -98,7 +114,8 @@ namespace StudentManagement.Services
                 maxAge,
                 minGPA,
                 maxGPA,
-                department
+                department,
+                isActive
             );
             students.DisplayAll();
             Misc.Hold();
@@ -106,6 +123,7 @@ namespace StudentManagement.Services
 
         public void GetTopStudents()
         {
+            Console.Clear();
             Message.Title("Top Students");
 
             var count = Convert.ToInt32(TakeInput("Enter total number of students (>= 1)"));
@@ -116,6 +134,7 @@ namespace StudentManagement.Services
 
         public void RemoveStudent()
         {
+            Console.Clear();
             Message.Title("Remove Student");
 
             var studentId = Convert.ToInt32(TakeInput("Enter student id"));
@@ -129,21 +148,26 @@ namespace StudentManagement.Services
             {
                 Message.Error(ex.Message);
             }
+            finally
+            {
+                Misc.Hold();
+            }
         }
 
         public void UpdateStudent()
         {
+            Console.Clear();
             Message.Title("Update Student");
 
             try
             {
-                var id = Convert.ToInt32(TakeNullableInput("Enter student id"));
-                var name = TakeNullableInput("Enter name");
-                var email = TakeNullableInput("Enter email");
-                var age = Convert.ToInt32(TakeNullableInput("Enter age"));
-                var department = TakeNullableInput("Enter department");
-                var gpa = Convert.ToDouble(TakeNullableInput("Enter GPA"));
-                var isActive = Convert.ToBoolean(TakeNullableInput("Enter activation status"));
+                var id = Convert.ToInt32(TakeInput("Enter student id"));
+                var name = TakeNullableInputString("Enter name");
+                var email = TakeNullableInputString("Enter email");
+                var age = TakeNullableInputInt("Enter age");
+                var department = TakeNullableInputString("Enter department");
+                var gpa = TakeNullableInputDouble("Enter GPA");
+                var isActive = TakeNullableInputBoolean("Enter activation status (0-False, 1-True)");
 
                 _service.UpdateStudent(id, name, age, email, department, gpa, isActive);
                 Message.Success("Student has been updated");
@@ -151,6 +175,9 @@ namespace StudentManagement.Services
             catch (Exception ex)
             {
                 Message.Error(ex.Message);
+            }
+            finally
+            {
                 Misc.Hold();
             }
         }
