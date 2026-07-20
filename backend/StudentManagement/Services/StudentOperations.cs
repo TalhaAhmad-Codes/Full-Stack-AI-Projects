@@ -8,9 +8,9 @@ namespace StudentManagement.Services
     {
         private readonly StudentService _service;
 
-        public StudentOperations()
+        public StudentOperations(string fileName)
         {
-            _service = new();
+            _service = new(fileName);
         }
 
         public StudentOperations(StudentService service)

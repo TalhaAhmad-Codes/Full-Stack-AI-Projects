@@ -9,7 +9,16 @@ public sealed class StudentService : IStudentService
     List<Student> _students = [];
     IQueryable<Student> _query => _students.AsQueryable();
     static int count = 0;
+    private FileService _fileService;
+    private string _fileName;
 
+    public StudentService(string fileName)
+    {
+        _fileService = new();
+        _fileName = fileName;
+        _students = _fileService.LoadFromFile(_fileName);
+    }
+    
     private void AgainstInvalidEmail(string email)
     {
         var isValidEmail = ValidationHelper.IsValidEmail(email);
@@ -41,6 +50,7 @@ public sealed class StudentService : IStudentService
         // Adding student record
         Student student = new(++count, name, age, email, department, gpa, true, DateTime.Now);
         _students.Add(student);
+        _fileService.SaveToFile(_fileName, _students);
     }
 
     public void UpdateStudent(
@@ -82,6 +92,8 @@ public sealed class StudentService : IStudentService
 
         _students.Remove(student);
         _students.Add(newStudent);
+        var students = _query.OrderBy(s => s.Id).ToList();
+        _fileService.SaveToFile(_fileName, students);
     }
 
     public void DeleteStudent(int id)
@@ -91,6 +103,7 @@ public sealed class StudentService : IStudentService
             ?? throw new Exception("Student of given id not found.");
 
         _students.Remove(student);
+        _fileService.SaveToFile(_fileName, _students);
     }
 
     public List<Student> GetAllStudents()
